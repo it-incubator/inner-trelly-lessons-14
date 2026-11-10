@@ -10,9 +10,9 @@ export const todolistsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTodolistsTC.fulfilled, (state, action) => {
-        action.payload?.todolists.forEach((tl) => {
-          state.push({ ...tl, filter: "all" })
+      .addCase(fetchTodolistsTC.fulfilled, (_, action) => {
+        return action.payload.todolists.map((tl) => {
+          return { ...tl, filter: "all" }
         })
       })
       .addCase(createTodolistTC.fulfilled, (state, action) => {
@@ -31,24 +31,29 @@ export const todolistsSlice = createSlice({
         }
       })
   },
-  reducers: (create) => ({
-    changeTodolistFilterAC: create.reducer<{ id: string; filter: FilterValues }>((state, action) => {
-      const todolist = state.find((todolist) => todolist.id === action.payload.id)
-      if (todolist) {
-        todolist.filter = action.payload.filter
+  reducers: create => ({
+    changeTodolistFilterAC: create.reducer<{ id: string; filter: FilterValues }>(
+      (state, action) => {
+        const todolist = state.find(todolist => todolist.id === action.payload.id)
+        if (todolist) {
+          todolist.filter = action.payload.filter
+        }
       }
-    }),
-  }),
+    )
+  })
 })
 
-export const fetchTodolistsTC = createAsyncThunk(`${todolistsSlice.name}/fetchTodolistsTC`, async (_, thunkAPI) => {
-  try {
-    const todolists = await todolistsApi.getTodolists()
-    return { todolists }
-  } catch (error) {
-    return thunkAPI.rejectWithValue(null)
+export const fetchTodolistsTC = createAsyncThunk(
+  `${todolistsSlice.name}/fetchTodolistsTC`,
+  async (_, thunkAPI) => {
+    try {
+      const todolists = await todolistsApi.getTodolists()
+      return { todolists }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(null)
+    }
   }
-})
+)
 
 export const createTodolistTC = createAsyncThunk(
   `${todolistsSlice.name}/createTodolistTC`,
@@ -81,9 +86,9 @@ export const changeTodolistTitleTC = createAsyncThunk(
       await todolistsApi.changeTodolistTitle(payload)
       return payload
     } catch (error) {
-      return thunkAPI.rejectWithValue(null)
+      return thunkAPI.rejectWithValue(error)
     }
-  },
+  }
 )
 
 export const { selectTodolists } = todolistsSlice.selectors

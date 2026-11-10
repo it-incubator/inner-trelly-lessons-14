@@ -3,7 +3,7 @@ import { containerSx } from "@/common/styles"
 import {
   changeTodolistFilterAC,
   type DomainTodolist,
-  type FilterValues,
+  type FilterValues
 } from "@/features/todolists/model/todolists-slice"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"

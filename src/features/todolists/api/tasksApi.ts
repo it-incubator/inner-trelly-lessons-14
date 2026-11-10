@@ -1,8 +1,13 @@
 import { instance } from "@/common/instance"
 import type { ApiResource, BaseResponse } from "@/common/types"
-import type { DomainTask, GetTasksResponse, TaskAttributes, UpdateTaskModel } from "./tasksApi.types"
+import type {
+  DomainTask,
+  GetTasksResponse,
+  TaskAttributes,
+  UpdateTaskModel,
+} from "@/features/todolists/api/tasksApi.types"
 
-export const toDomainTask = ({ id, attributes }: ApiResource<TaskAttributes>, todolistId: string): DomainTask => ({
+const toDomainTask = ({ id, attributes }: ApiResource<TaskAttributes>, todolistId: string): DomainTask => ({
   id,
   ...attributes,
   todolistId,
@@ -11,7 +16,7 @@ export const toDomainTask = ({ id, attributes }: ApiResource<TaskAttributes>, to
 export const tasksApi = {
   getTasks(todolistId: string) {
     return instance
-      .get<GetTasksResponse>(`/boards/${todolistId}/tasks`, { params: { pageSize: 20 } })
+      .get<GetTasksResponse>(`/boards/${todolistId}/tasks`)
       .then((res) => res.data.data.map((task) => toDomainTask(task, todolistId)))
   },
   createTask(payload: { todolistId: string; title: string }) {

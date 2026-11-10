@@ -1,4 +1,4 @@
-import type { TaskPriority, TaskStatus } from "@/common/enums/enums"
+import { type TaskPriority, TaskStatus } from "@/common/enums"
 import type { ApiResource, BaseResponse } from "@/common/types"
 
 export type TaskAttributes = {

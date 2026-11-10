@@ -1,9 +1,9 @@
-import { EditableSpan } from "@/common/components"
+import { EditableSpan } from "@/common/components/EditableSpan/EditableSpan"
 import { useAppDispatch } from "@/common/hooks"
 import {
   changeTodolistTitleTC,
   deleteTodolistTC,
-  type DomainTodolist,
+  type DomainTodolist
 } from "@/features/todolists/model/todolists-slice"
 import DeleteIcon from "@mui/icons-material/Delete"
 import IconButton from "@mui/material/IconButton"
